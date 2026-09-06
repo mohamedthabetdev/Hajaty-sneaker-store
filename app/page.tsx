@@ -15,10 +15,10 @@ export default function Home() {
       <Header />
 
       <main className="pb-24 lg:pb-0">
-        <section className="max-w-6xl mx-auto px-4 py-6 sm:py-10 grid lg:grid-cols-2 gap-6 sm:gap-8 items-start">
+        <section className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-10 grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-start">
           
           {/* Gallery sticky on desktop, scrolls naturally on mobile */}
-          <div className="relative self-start lg:sticky lg:top-6">
+          <div className="relative self-start lg:sticky lg:top-6 w-full max-w-full overflow-hidden">
             <ProductGallery />
           </div>
 
