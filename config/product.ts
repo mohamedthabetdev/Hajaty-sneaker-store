@@ -15,7 +15,7 @@ export const product: Product = {
   currency: "ج.م",
   rating: 5.0,
   reviewsCount: 1351,
-  stockLeft: 18,
+  stockLeft: 7,
   images: [
     "/images/product/shoe-colors.webp",
     "/images/product/shoe-grey.webp",

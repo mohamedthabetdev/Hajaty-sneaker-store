@@ -103,11 +103,19 @@ export default function CountdownTimer({
 
   useEffect(() => {
     setIsMounted(true);
-    const targetMs = getTargetTimestamp(targetDate);
-    setTime(getRemaining(targetMs));
+    let currentTarget = getTargetTimestamp(targetDate);
+    setTime(getRemaining(currentTarget));
 
     const interval = setInterval(() => {
-      setTime(getRemaining(targetMs));
+      if (currentTarget - Date.now() <= 0) {
+        currentTarget = Date.now() + DEFAULT_HOURS * 60 * 60 * 1000;
+        try {
+          localStorage.setItem(STORAGE_KEY, currentTarget.toString());
+        } catch {
+          // Ignore
+        }
+      }
+      setTime(getRemaining(currentTarget));
     }, 1000);
 
     return () => clearInterval(interval);

@@ -46,7 +46,7 @@ export default function ProductInfo() {
             />
           ))}
           <span className="text-sm font-semibold text-neutral-700 ms-1">
-            {product.rating} ({product.reviewsCount} تقييم)
+            ({product.reviewsCount} تقييم)
           </span>
         </div>
         {viewersCount !== null && (
