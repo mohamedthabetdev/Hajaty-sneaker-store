@@ -9,23 +9,54 @@ interface TimeRemaining {
   seconds: number;
 }
 
-function getRemaining(targetDate?: Date): TimeRemaining {
-  const now = new Date();
+const DEFAULT_HOURS = 5;
+const STORAGE_KEY = "hajaty_timer_target_ms";
 
-  const target =
-    targetDate ||
-    new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      23,
-      59,
-      59
-    );
+function getTargetTimestamp(targetDate?: Date): number {
+  if (targetDate) return targetDate.getTime();
 
-  const diffMs = Math.max(0, target.getTime() - now.getTime());
-  const totalSeconds = Math.floor(diffMs / 1000);
+  if (typeof window === "undefined") {
+    return Date.now() + DEFAULT_HOURS * 60 * 60 * 1000;
+  }
 
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = parseInt(saved, 10);
+      // If valid and still in the future, reuse it
+      if (!isNaN(parsed) && parsed > Date.now()) {
+        return parsed;
+      }
+    }
+  } catch {
+    // Ignore storage errors
+  }
+
+  // Otherwise initialize a fresh 5-hour target
+  const freshTarget = Date.now() + DEFAULT_HOURS * 60 * 60 * 1000;
+  try {
+    localStorage.setItem(STORAGE_KEY, freshTarget.toString());
+  } catch {
+    // Ignore storage errors
+  }
+  return freshTarget;
+}
+
+function getRemaining(targetTimestamp: number): TimeRemaining {
+  let diffMs = targetTimestamp - Date.now();
+
+  // If expired, renew to a new 5-hour cycle
+  if (diffMs <= 0) {
+    const renewed = Date.now() + DEFAULT_HOURS * 60 * 60 * 1000;
+    try {
+      localStorage.setItem(STORAGE_KEY, renewed.toString());
+    } catch {
+      // Ignore storage errors
+    }
+    diffMs = renewed - Date.now();
+  }
+
+  const totalSeconds = Math.max(0, Math.floor(diffMs / 1000));
   const days = Math.floor(totalSeconds / (3600 * 24));
   const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -41,10 +72,12 @@ function TimeBox({
   value: number;
   label: string;
 }) {
+  const formatted = String(value).padStart(2, "0");
+
   return (
     <div className="flex h-18 sm:h-24 lg:h-26 flex-1 min-w-0 max-w-[72px] sm:max-w-[84px] flex-col items-center justify-center rounded-xl sm:rounded-2xl border border-gray-100 bg-white shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] px-1">
       <span className="text-xl sm:text-2xl font-bold leading-none text-black tabular-nums">
-        {value}
+        {formatted}
       </span>
 
       <span className="mt-1 sm:mt-2 text-[10px] sm:text-xs font-medium text-gray-400 truncate max-w-full">
@@ -61,7 +94,7 @@ export default function CountdownTimer({
 }) {
   const [time, setTime] = useState<TimeRemaining>({
     days: 0,
-    hours: 0,
+    hours: DEFAULT_HOURS,
     minutes: 0,
     seconds: 0,
   });
@@ -70,10 +103,11 @@ export default function CountdownTimer({
 
   useEffect(() => {
     setIsMounted(true);
-    setTime(getRemaining(targetDate));
+    const targetMs = getTargetTimestamp(targetDate);
+    setTime(getRemaining(targetMs));
 
     const interval = setInterval(() => {
-      setTime(getRemaining(targetDate));
+      setTime(getRemaining(targetMs));
     }, 1000);
 
     return () => clearInterval(interval);
