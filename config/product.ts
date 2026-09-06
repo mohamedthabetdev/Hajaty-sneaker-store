@@ -23,7 +23,7 @@ export const product: Product = {
     "/images/product/shoe-white.webp",
   ],
   colors: ["أسود", "أبيض", "رمادي"],
-  sizes: ["45", "44", "43", "42", "41"],
+  sizes: ["41", "42", "43", "44", "45"],
   variants: [
     {
       id: "single",

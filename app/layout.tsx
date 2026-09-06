@@ -37,8 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body className="font-sans antialiased bg-white text-[#17181c]">
+    <html lang="ar" dir="rtl" className="w-full max-w-full overflow-x-clip" suppressHydrationWarning>
+      <body className="font-sans antialiased bg-white text-[#17181c] w-full max-w-full overflow-x-clip min-h-screen">
         {children}
       </body>
     </html>

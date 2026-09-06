@@ -14,16 +14,16 @@ export default function Home() {
     <>
       <Header />
 
-      <main className="pb-24 lg:pb-0">
-        <section className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-10 grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-start">
+      <main className="w-full max-w-full overflow-x-clip pb-24 lg:pb-0">
+        <section className="w-full max-w-6xl mx-auto px-4 py-4 sm:py-6 lg:py-10 grid lg:grid-cols-2 gap-6 lg:gap-8 items-start">
           
           {/* Gallery sticky on desktop, scrolls naturally on mobile */}
-          <div className="relative self-start lg:sticky lg:top-6 w-full max-w-full overflow-hidden">
+          <div className="relative self-start lg:sticky lg:top-6 w-full max-w-full min-w-0 overflow-hidden">
             <ProductGallery />
           </div>
 
           {/* Form column */}
-          <div className="flex flex-col gap-4 sm:gap-5">
+          <div className="flex flex-col gap-4 sm:gap-5 w-full max-w-full min-w-0">
             <ProductInfo />
             <CountdownTimer />
             <OrderForm />

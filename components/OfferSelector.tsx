@@ -41,24 +41,24 @@ export default function OfferSelector({
                 </span>
               )}
 
-              <span className="flex items-center justify-between gap-3 px-4 py-3">
-                <span className="flex items-center gap-3">
+              <span className="flex items-center justify-between gap-2 sm:gap-3 px-3.5 sm:px-4 py-3">
+                <span className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                   <input
                     type="radio"
                     name="variant"
                     value={variant.id}
                     checked={checked}
                     onChange={() => onVariantChange(variant.id)}
-                    className="size-4 accent-[var(--brand-primary)]"
+                    className="size-4 shrink-0 accent-[var(--brand-primary)]"
                   />
-                  <span className="text-sm font-semibold text-neutral-800">{variant.label}</span>
+                  <span className="text-xs sm:text-sm font-semibold text-neutral-800 break-words">{variant.label}</span>
                 </span>
-                <span className="flex items-baseline gap-2">
-                  <span className="font-extrabold text-brand-primary">
+                <span className="flex items-baseline gap-1.5 sm:gap-2 shrink-0">
+                  <span className="font-extrabold text-sm sm:text-base text-brand-primary">
                     {variant.price} {product.currency}
                   </span>
                   {variant.originalPrice && (
-                    <span className="text-xs text-neutral-400 line-through">
+                    <span className="text-[11px] sm:text-xs text-neutral-400 line-through">
                       {variant.originalPrice} {product.currency}
                     </span>
                   )}

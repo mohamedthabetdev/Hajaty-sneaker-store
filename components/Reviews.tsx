@@ -80,7 +80,7 @@ export default function Reviews() {
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-10 sm:py-14" dir="rtl">
+    <section className="w-full max-w-6xl mx-auto px-4 py-10 sm:py-14 overflow-hidden" dir="rtl">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
@@ -113,32 +113,33 @@ export default function Reviews() {
         </div>
       </div>
 
-      {/* Swiper Slider */}
-      <Swiper
-        onBeforeInit={(swiper) => {
-          swiperRef.current = swiper;
-        }}
-        modules={[Autoplay, Navigation, Pagination]}
-        spaceBetween={20}
-        slidesPerView={1}
-        loop={true}
-        speed={800}
-        autoplay={{
-          delay: 3500,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
-        pagination={{
-          clickable: true,
-          el: ".custom-swiper-pagination",
-        }}
-        breakpoints={{
-          640: { slidesPerView: 2, spaceBetween: 20 },
-          1024: { slidesPerView: 3, spaceBetween: 24 },
-        }}
-        /* تعديل جوهري لتساوي الارتفاعات */
-        className="!pb-4 [&_.swiper-wrapper]:items-stretch"
-      >
+      {/* Swiper Slider Container */}
+      <div className="w-full max-w-full min-w-0 overflow-hidden">
+        <Swiper
+          onBeforeInit={(swiper) => {
+            swiperRef.current = swiper;
+          }}
+          modules={[Autoplay, Navigation, Pagination]}
+          spaceBetween={20}
+          slidesPerView={1}
+          loop={true}
+          speed={800}
+          autoplay={{
+            delay: 3500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          pagination={{
+            clickable: true,
+            el: ".custom-swiper-pagination",
+          }}
+          breakpoints={{
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            1024: { slidesPerView: 3, spaceBetween: 24 },
+          }}
+          /* تعديل جوهري لتساوي الارتفاعات */
+          className="!pb-4 [&_.swiper-wrapper]:items-stretch w-full max-w-full"
+        >
         {reviews.map((review) => (
           <SwiperSlide key={review.id} className="!h-auto flex">
             {/* h-full تضمن أخذ كامل الارتفاع المتاح */}
@@ -171,6 +172,7 @@ export default function Reviews() {
           </SwiperSlide>
         ))}
       </Swiper>
+      </div>
 
       {/* Custom Pagination */}
       <div className="custom-swiper-pagination flex justify-center gap-1.5 mt-6 [&_.swiper-pagination-bullet]:size-2.5 [&_.swiper-pagination-bullet]:bg-neutral-300 [&_.swiper-pagination-bullet-active]:!w-8 [&_.swiper-pagination-bullet-active]:!rounded-full [&_.swiper-pagination-bullet-active]:!bg-neutral-900 [&_.swiper-pagination-bullet]:transition-all" />
